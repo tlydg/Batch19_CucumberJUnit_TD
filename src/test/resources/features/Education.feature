@@ -1,5 +1,5 @@
 Feature: Education Tests
-
+  @paralel
   Scenario: Add Education Form Labels Check
     Given The user is on the login page
     When The user logins with "test22mail@gmail.com" and "654321Abc,"

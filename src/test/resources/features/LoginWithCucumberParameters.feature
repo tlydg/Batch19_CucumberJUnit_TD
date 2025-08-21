@@ -10,7 +10,7 @@ Feature: Login Tests with Cucumber Parameters
     When The user logins with "test22mail@gmail.com" and "654321Abc,"
     Then The user should be able to see "testdeneme" on dashboard page
 
-
+  @paralel
   Scenario: Login as Rosa - Cucumber Parameters
    # Given The user is on the login page
     When The user logins with "rosa@test.com" and "Test123456"
@@ -21,7 +21,7 @@ Feature: Login Tests with Cucumber Parameters
     When The user logins with "leeroyjenkins@email.com" and "1234.Asdf"
     *  The user should be able to see "Leeroy" on dashboard page
 
-
+  @paralel
   Scenario: Login as Mike - Cucumber Parameters
     # Given The user is on the login page
     When The user logins with "mike@gmail.com" and "mike1234"
@@ -37,12 +37,12 @@ Feature: Login Tests with Cucumber Parameters
     When The user logins with "Ramanzi@test.com" and "Test123456"
     Then The user should be able to see "Mansimmo" on dashboard page
 
-
+  @paralel
   Scenario: Login with credentials list mike
     When The user login and verify with following credentials
-      | Ramanzi@test.com |
-      | Test123456       |
-      | Mansimmo         |
+      | mike@gmail.com |
+      | mike1234      |
+      | mike          |
 
 
   Scenario: Login with credentials list Rosa
@@ -51,6 +51,8 @@ Feature: Login Tests with Cucumber Parameters
       | Test123456    |
       | Rosa          |
 
+
+@wip
   Scenario: Login with credentials map Rosa
     When The user login and verify with following credentials map
       | user_email | rosa@test.com |

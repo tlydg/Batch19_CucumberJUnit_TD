@@ -9,43 +9,54 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class Driver {
+
     private Driver() {
     }
 
-    private static WebDriver driver;
+    // InheritableThreadLocal  --> this is like a container, bag, pool.
+    // in this pool we can have separate objects for each thread
+    // for each thread, in InheritableThreadLocal we can have separate object for that thread
+    // driver class will provide separate WebDriver object for each thread
+
+    private static InheritableThreadLocal<WebDriver> driverPool= new InheritableThreadLocal<>();
+
+    //  private static WebDriver driver;
 
     public static WebDriver get() {
-        if (driver == null) {
-            String browser = ConfigurationReader.get("browser");
+        if (driverPool.get() == null) {
+            //if we pass the driver from terminal then use that one
+            //if we do not pass the driver from terminal then use the one properties file
+
+            String browser = System.getProperty("browser") !=null ? browser = System.getProperty("browser"): ConfigurationReader.get("browser");
 
             switch (browser.toLowerCase()) {
                 case "chrome":
-                    driver = new ChromeDriver();
+                   driverPool.set(new ChromeDriver());
                     break;
                 case "chrome-headless":
-                    driver = new ChromeDriver(new ChromeOptions().addArguments("--headless"));
+                    driverPool.set(new ChromeDriver(new ChromeOptions().addArguments("--headless")));
                     break;
                 case "firefox":
-                    driver = new FirefoxDriver();
+                    driverPool.set(new FirefoxDriver());
                     break;
                 case "firefox-headless":
-                    driver = new FirefoxDriver(new FirefoxOptions().addArguments("--headless"));
+                    driverPool.set(new FirefoxDriver(new FirefoxOptions().addArguments("--headless")));
                     break;
                 case "edge":
                     if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
                         throw new WebDriverException("Your OS does not support Edge");
                     }
-                    driver = new EdgeDriver();
+                    driverPool.set(new EdgeDriver());
                     break;
             }
         }
-        return driver;
+        return driverPool.get();
     }
 
     public static void closeDriver(){
-        if(driver != null){
-            driver.quit();
-            driver = null;
+        if(driverPool != null){
+            driverPool.get().quit();
+            driverPool.remove();
         }
     }
 

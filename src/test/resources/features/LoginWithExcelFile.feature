@@ -22,16 +22,16 @@ Feature: Login Test With Excel File
     When The user logins with using excel file: <row>
     Then The user verifies success login with excel file: <row>
     Examples:
-    row |
-      | 1 |
-      | 2 |
-      | 3 |
-      | 4 |
-      | 5 |
-      | 6 |
-      | 7 |
+      | row |
+      | 1   |
+      | 2   |
+      | 3   |
+      | 4   |
+      | 5   |
+      | 6   |
+      | 7   |
 
-
+  @wip
   Scenario Outline: Login Test -3
     Given The user is on the login page
     When The user logins with using excel file: "<path>" and "<sheetName>" and makes verify
